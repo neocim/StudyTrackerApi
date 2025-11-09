@@ -1,11 +1,11 @@
 run:
-    docker-compose up
+    docker compose up
 
 run-build:
-    docker-compose up --build
+    docker compose up --build
 
 run-db:
-    docker-compose up db
+    docker compose up db
 
 migrations-add migrationName:
     dotnet-ef migrations add {{migrationName}} \

@@ -20,7 +20,10 @@ migrations-rm:
 migrate:
     just -E=./.env migrate-with-env
 
-migrate-with-env defaultConnection=env("CONNECTIONSTRINGS__DEFAULTCONNECTION"): migrate-build
+migrate-build: migrator-build
+    just -E=./.env migrate-with-env
+
+migrate-with-env defaultConnection=env("CONNECTIONSTRINGS__DEFAULTCONNECTION"):
     docker run --rm \
         --network "studytracker_StudyTracker.Postgres.Network" \
         -e CONNECTIONSTRINGS__DEFAULTCONNECTION="{{defaultConnection}}" \
@@ -30,5 +33,5 @@ migrate-with-env defaultConnection=env("CONNECTIONSTRINGS__DEFAULTCONNECTION"): 
         --startup-project src/Api/ \
         --no-build
 
-migrate-build:
+migrator-build:
     docker build -f Migrator.Dockerfile . -t studytracker-migrator

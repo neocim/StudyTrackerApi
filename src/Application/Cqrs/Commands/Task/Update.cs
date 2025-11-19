@@ -32,7 +32,7 @@ public class UpdateTaskCommandHandler(
 
         if (request.BeginDate >= request.EndDate)
             return Error.Validation(
-                description: $"`beginDate` should be less than `endDate`");
+                description: $"`beginDate` must be less than `endDate`");
 
         var task = await taskReader.GetByIdAsync(request.Id);
 

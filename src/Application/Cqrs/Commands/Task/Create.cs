@@ -34,7 +34,7 @@ public class CreateTaskCommandHandler(
 
         if (request.BeginDate >= request.EndDate)
             return Error.Validation(
-                description: $"`beginDate` should be less than `endDate`");
+                description: "`beginDate` must be less than `endDate`");
 
         if (await taskReader.GetByIdAsync(request.Id) is not null)
             return Error.Conflict(

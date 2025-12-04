@@ -1,4 +1,4 @@
-using System.Security.Cryptography.X509Certificates;
+using System.Text;
 using Application.Data;
 using Application.Security;
 using Domain.Readers;
@@ -58,7 +58,7 @@ public static class DependencyInjection
                     ValidAudience = configuration["Auth:Audience"],
 
                     ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = X509SecurityKeyFromConfiguration(configuration),
+                    IssuerSigningKey = SigningKeyFromConfiguration(configuration),
 
                     ValidateLifetime = true,
                     ValidAlgorithms = [SecurityAlgorithms.HmacSha256, SecurityAlgorithms.RsaSha256]
@@ -70,18 +70,9 @@ public static class DependencyInjection
         return services;
     }
 
-    private static X509SecurityKey X509SecurityKeyFromConfiguration(
+    private static SymmetricSecurityKey SigningKeyFromConfiguration(
         IConfiguration configuration)
     {
-        var cert = configuration["Auth:SigningCertificate"]!;
-        cert = cert
-            .Replace("-----BEGIN CERTIFICATE-----", string.Empty)
-            .Replace("-----END CERTIFICATE-----", string.Empty)
-            .Replace("\r", string.Empty)
-            .Replace("\n", string.Empty)
-            .Trim();
-
-        return new X509SecurityKey(
-            X509CertificateLoader.LoadCertificate(Convert.FromBase64String(cert)));
+        return new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Auth:SigningKey"]!));
     }
 }

@@ -1,15 +1,15 @@
 using System.Security.Cryptography.X509Certificates;
 using Application.Data;
+using Application.Security;
 using Domain.Readers;
 using Domain.Repositories;
 using Infrastructure.Database;
 using Infrastructure.Database.Data;
 using Infrastructure.Database.Readers;
 using Infrastructure.Database.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Application.Security;
 using Infrastructure.Security;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Infrastructure;
@@ -60,7 +60,8 @@ public static class DependencyInjection
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = X509SecurityKeyFromConfiguration(configuration),
 
-                    ValidateLifetime = true
+                    ValidateLifetime = true,
+                    ValidAlgorithms = [SecurityAlgorithms.HmacSha256, SecurityAlgorithms.RsaSha256]
                 };
             });
 

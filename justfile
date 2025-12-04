@@ -35,3 +35,9 @@ migrate-with-env defaultConnection=env("CONNECTIONSTRINGS__DEFAULTCONNECTION"):
 
 migrator-build:
     docker build -f Migrator.Dockerfile . -t studytracker-migrator
+
+set-secret secretKey secretValue:
+    dotnet user-secrets set "{{secretKey}}" "{{secretValue}}" --project StudyTrackerApi.sln
+    
+secret-list:
+    dotnet user-secrets list --project StudyTrackerApi.sln

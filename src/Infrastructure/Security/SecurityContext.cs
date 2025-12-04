@@ -2,7 +2,9 @@ using Application.Security;
 
 namespace Infrastructure.Security;
 
-public class SecurityContext(IHttpContextAccessor httpContextAccessor) : ISecurityContext
+public class SecurityContext(
+    IHttpContextAccessor httpContextAccessor,
+    ILogger<SecurityContext> logger) : ISecurityContext
 {
     public bool HasPermission(string permission)
     {
@@ -11,7 +13,12 @@ public class SecurityContext(IHttpContextAccessor httpContextAccessor) : ISecuri
             .Select(c => c.Value);
 
         if (permissions is not null)
+        {
+            logger.LogDebug($"User has permission `{permission}`");
             return permissions.Contains(permission);
+        }
+
+        logger.LogError($"User does not have permission `{permission}`");
 
         return false;
     }

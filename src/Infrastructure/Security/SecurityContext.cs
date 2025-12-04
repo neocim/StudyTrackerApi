@@ -8,18 +8,12 @@ public class SecurityContext(
 {
     public bool HasPermission(string permission)
     {
-        var permissions = httpContextAccessor.HttpContext?.User.Claims
-            .Where(c => c.Type == "permission")
-            .Select(c => c.Value);
+        var hasPermission = httpContextAccessor.HttpContext?.User.Claims
+            .Where(c => c.Type == "permissions")
+            .Any(c => c.Value == permission) ?? false;
 
-        if (permissions is not null)
-        {
-            logger.LogDebug($"User has permission `{permission}`");
-            return permissions.Contains(permission);
-        }
+        logger.LogDebug($"User has permission: {hasPermission}");
 
-        logger.LogError($"User does not have permission `{permission}`");
-
-        return false;
+        return hasPermission;
     }
 }

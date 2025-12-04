@@ -61,7 +61,7 @@ public static class DependencyInjection
                     IssuerSigningKey = SigningKeyFromConfiguration(configuration),
 
                     ValidateLifetime = true,
-                    ValidAlgorithms = [SecurityAlgorithms.HmacSha256, SecurityAlgorithms.RsaSha256]
+                    ValidAlgorithms = [SecurityAlgorithms.HmacSha256]
                 };
             });
 

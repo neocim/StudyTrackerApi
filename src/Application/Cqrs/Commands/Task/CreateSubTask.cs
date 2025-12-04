@@ -1,11 +1,10 @@
-using Entity = Domain.Entities;
 using Application.Data;
 using Application.Security;
-using Application.Security.Permissions;
 using Domain.Readers;
-using MediatR;
 using ErrorOr;
+using MediatR;
 using Microsoft.Extensions.Logging;
+using Entity = Domain.Entities;
 
 namespace Application.Cqrs.Commands.Task;
 
@@ -30,12 +29,9 @@ public class CreateSubTaskCommandHandler(
     public async Task<ErrorOr<Created>> Handle(CreateSubTaskCommand request,
         CancellationToken cancellationToken)
     {
-        if (!securityContext.HasPermission(Permission.Task.Create))
-            return Error.Forbidden(description: "Access denied");
-
         if (request.BeginDate >= request.EndDate)
             return Error.Validation(
-                description: $"`beginDate` must be less than `endDate`");
+                description: "`beginDate` must be less than `endDate`");
 
         var task = await taskReader.GetByIdAsync(request.ParentTaskId);
 

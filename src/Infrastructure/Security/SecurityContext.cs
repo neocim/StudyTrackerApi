@@ -2,6 +2,7 @@ using Application.Security;
 
 namespace Infrastructure.Security;
 
+/// Dont use it now
 public class SecurityContext(
     IHttpContextAccessor httpContextAccessor,
     ILogger<SecurityContext> logger) : ISecurityContext

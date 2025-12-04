@@ -1,6 +1,5 @@
 using Application.Dto.Task.ReadModels;
 using Application.Security;
-using Application.Security.Permissions;
 using AutoMapper;
 using Domain.Readers;
 using ErrorOr;
@@ -24,9 +23,6 @@ public class GetSubTasksByParentIdQueryHandler(
         GetSubTasksByParentIdQuery request,
         CancellationToken cancellationToken)
     {
-        if (!securityContext.HasPermission(Permission.Task.Read))
-            return Error.Forbidden(description: "Access denied");
-
         var tasks = await taskReader.GetSubTasksByParentIdAsync(request.ParentTaskId);
 
         logger.LogInformation($"Get subtasks of task `{request.ParentTaskId}`");

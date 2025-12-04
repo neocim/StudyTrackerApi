@@ -1,6 +1,5 @@
 using Application.Data;
 using Application.Security;
-using Application.Security.Permissions;
 using Domain.Readers;
 using ErrorOr;
 using MediatR;
@@ -27,12 +26,9 @@ public class UpdateTaskCommandHandler(
     public async Task<ErrorOr<Updated>> Handle(UpdateTaskCommand request,
         CancellationToken cancellationToken)
     {
-        if (!securityContext.HasPermission(Permission.Task.Update))
-            return Error.Forbidden(description: "Access denied");
-
         if (request.BeginDate >= request.EndDate)
             return Error.Validation(
-                description: $"`beginDate` must be less than `endDate`");
+                description: "`beginDate` must be less than `endDate`");
 
         var task = await taskReader.GetByIdAsync(request.Id);
 

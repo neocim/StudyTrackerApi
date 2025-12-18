@@ -38,6 +38,6 @@ migrator-build:
 
 set-secret secretKey secretValue:
     dotnet user-secrets set "{{secretKey}}" "{{secretValue}}" --project StudyTrackerApi.sln
-    
+
 secret-list:
     dotnet user-secrets list --project StudyTrackerApi.sln

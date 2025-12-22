@@ -4,7 +4,7 @@ public record TaskNodeResponse(
     Guid Id,
     Guid OwnerId,
     Guid? ParentId,
-    ICollection<TaskNodeResponse>? SubTasks,
+    ICollection<TaskNodeResponse> SubTasks,
     DateOnly BeginDate,
     DateOnly EndDate,
     string Name,
